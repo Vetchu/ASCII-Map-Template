@@ -1,0 +1,146 @@
+package agh.cs.lab1;
+
+import java.util.Arrays;
+import java.util.stream.Stream;
+
+import static agh.cs.lab1.Direction.*;
+
+/**
+ * Created by student25 on 2018-10-01.
+ */
+public class CarSystem {
+    private static void run(){
+        System.out.println("Car drives forward");
+    }
+    private static void run(String[] args){
+        for(int i=0;i<args.length;i++){
+            System.out.print(args[i]);
+            if(i!=args.length-1) System.out.print(",");
+        }
+        System.out.println();
+        for(int i=0;i<args.length;i++){
+            switch (args[i]){
+                case "f":
+                    System.out.println("Car drives forward");
+                    break;
+                case "r":
+                    System.out.println("Car turns right");
+                    break;
+                case "b":
+                    System.out.println("Car drives backward");
+                    break;
+                case "l":
+                    System.out.println("Car turns left");
+                    break;
+            }
+        }
+        System.out.println("Car drives forward");
+    }
+    private static void run(Direction[] args){
+        for(int i=0;i<args.length;i++){
+            switch (args[i]){
+                case Forward:
+                    System.out.println("Car drives forward");
+                    break;
+                case Right:
+                    System.out.println("Car turns right");
+                    break;
+                case Back:
+                    System.out.println("Car drives backward");
+                    break;
+                case Left:
+                    System.out.println("Car turns left");
+                    break;
+            }
+        }
+        System.out.println("Car drives forward");
+    }
+    private static void run(Stream<Direction> args){
+        args.forEach(a->{
+        switch (a){
+            case Forward:
+                System.out.println("Car drives forward");
+                break;
+            case Right:
+                System.out.println("Car turns right");
+                break;
+            case Back:
+                System.out.println("Car drives backward");
+                break;
+            case Left:
+                System.out.println("Car turns left");
+                break;
+        }
+        });
+    }
+    private static Stream<Direction> convertStream(String args[]){
+        return Stream.of(args).map(a-> {
+                    switch (a){
+            case "f":
+                return Direction.Forward;
+//                break;
+            case "r":
+                return Direction.Right;
+//                break;
+            case "b":
+                return Direction.Back;
+//                break;
+            case "l":
+                return Direction.Left;
+//                break;
+                default: return null;
+            }
+        }
+        );
+    }
+
+    private static Direction[] convert(String args[]){
+        Direction[] returner=new Direction[args.length];
+        for(int i=0;i<args.length;i++){
+            if(args[i]!=null)
+            switch (args[i]){
+                case "f":
+                    returner[i]=Direction.Forward;
+                    break;
+                case "r":
+                    returner[i]=Direction.Right;
+                    break;
+                case "b":
+                    returner[i]=Direction.Back;
+                    break;
+                case "l":
+                    returner[i]=Direction.Left;
+                    break;
+            }
+        }
+        return returner;
+    }
+    public static void main(String args[]){
+        System.out.println("Start");
+        int lastincorrect=0;
+
+        for(int i=0;i<args.length;i++){
+            switch (args[i]){
+                case "f":
+                    break;
+                case "r":
+                    break;
+                case "b":
+                    break;
+                case "l":
+                    break;
+                default:
+                    String tmp=args[i];
+                    args[i]=args[lastincorrect];
+                    args[lastincorrect]=tmp;
+                    lastincorrect++;
+                    break;
+            }
+        }
+        String argsgood[]= Arrays.copyOfRange(args,lastincorrect,args.length-1);
+        run(convert(argsgood));
+        run(convertStream(argsgood));
+        //run(args);
+        System.out.println("Finish");
+    }
+}
