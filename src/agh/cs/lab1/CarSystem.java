@@ -102,7 +102,7 @@ public class CarSystem {
                 break;
             default:
         }});
-        
+
         //run(enumerated);
         //run(args);
         System.out.println("Koniec Systemu");
