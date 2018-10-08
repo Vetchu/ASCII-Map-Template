@@ -3,7 +3,7 @@ package agh.cs.lab3;
 public class Position {
     private final int x,y;
 
-    Position(int x,int y){
+    public Position(int x, int y) {
         this.x=x;
         this.y=y;
 
@@ -13,7 +13,6 @@ public class Position {
     public String toString() {
         return "("+this.x+","+this.y+")";
     }
-
     public boolean smaller(Position second){
         return (this.x-second.x<=0&&this.y-second.y<=0);
     }
@@ -21,11 +20,26 @@ public class Position {
         return (this.x-second.x>=0&&this.y-second.y>=0);
     }
     public Position add(Position second){
-        System.out.println(second.x+" "+second.y);
         return new Position(second.x+this.x,second.y+this.y);
     }
-    public boolean equals(Position other){
-        return (this.x==other.x&&this.y==other.y);
+
+    public boolean equals(Object other) {
+        if (other == this) return true;
+        if (!(other instanceof Position)) return false;
+        Position that = (Position) other;
+        return (this.x == that.x && this.y == that.y);
+    }
+
+    public Position upperRight(Position second) {
+        int newX = (second.x >= this.x) ? second.x : this.x;
+        int newY = (second.y >= this.y) ? second.y : this.y;
+        return new Position(newX, newY);
+    }
+
+    public Position lowerLeft(Position second) {
+        int newX = (second.x >= this.x) ? this.x : second.x;
+        int newY = (second.y >= this.y) ? this.y : second.y;
+        return new Position(newX, newY);
     }
 
     public static void main(String[] args){

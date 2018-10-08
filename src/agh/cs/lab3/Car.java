@@ -1,7 +1,5 @@
 package agh.cs.lab3;
 
-import java.awt.*;
-
 public class Car {
     private MapDirection carDir = MapDirection.North;
     private Position carPosition = new Position(2, 2);
@@ -17,7 +15,7 @@ public class Car {
                 int a = (direction == MoveDirection.Forward) ? 1 : -1;
                 Position topLeft = new Position(1, 1);
                 Position bottomRight = new Position(3, 3);
-                Position temp=this.carPosition;
+                Position temp = this.carPosition;
                 switch (this.carDir) {
                     case North:
                         temp = this.carPosition.add(new Position(0, a));
