@@ -7,6 +7,6 @@ public class CarSystem {
         map.place(new Car(map));
         map.place(new Car(map,3,4));
         map.run(directions);
-        System.out.println(map.toString());
+        System.out.println(map);
     }
 }

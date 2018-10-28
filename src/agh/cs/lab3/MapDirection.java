@@ -44,4 +44,17 @@ enum MapDirection {
         }
         return null;
     }
+    public Position getVector(){
+        switch (this) {
+            case North:
+                return new Position(0, 1);
+            case South:
+                return new Position(0, -1);
+            case East:
+                return (new Position(1, 0));
+            case West:
+                return (new Position(-1, 0));
+        }
+        return null;
+    }
 }

@@ -21,7 +21,7 @@ public class MapDirectionTest {
 
     @Test
     public void previousTest() {
-        assertEquals("Północ na Zachód", MapDirection.North.next(), MapDirection.West);
-        assertEquals("Południe na Wschód", MapDirection.South.next(), MapDirection.East);
+        assertEquals("Północ na Zachód", MapDirection.North.prev(), MapDirection.West);
+        assertEquals("Południe na Wschód", MapDirection.South.prev(), MapDirection.East);
     }
 }

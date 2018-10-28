@@ -1,76 +1,75 @@
 package agh.cs.lab4;
 
 public class Car {
-    private MapDirection carDir = MapDirection.North;
-    private Position carPosition = new Position(2, 2);
+    private MapDirection direction = MapDirection.North;
+    private Position position = new Position(2, 2);
     private IWorldMap map;
+
     public String toString() {
-        return carDir.toString().substring(0,1);
+        //return direction.toString().substring(0,1);
+        switch (direction) {
+            case North:
+                return "^";
+            case South:
+                return "v";
+            case West:
+                return "<";
+            case East:
+                return ">";
+        }
+        return null;
     }
-    Position getCarPosition(){
-        return carPosition;
+
+    Position getPosition() {
+        return position;
     }
 
     void move(MoveDirection direction) {
+        Position moveVector = this.direction.getVector();
         switch (direction) {
-            case Forward:
-            case Backward:
-                int a = (direction == MoveDirection.Forward) ? 1 : -1;
-                Position topLeft = new Position(1, 1);
-                Position bottomRight = new Position(3, 3);
-                Position temp=this.carPosition;
-                switch (this.carDir) {
-                    case North:
-                        temp = this.carPosition.add(new Position(0, a));
-                        break;
-                    case South:
-                        temp = this.carPosition.add(new Position(0, -a));
-                        break;
-                    case East:
-                        temp = this.carPosition.add(new Position(a, 0));
-                        break;
-                    case West:
-                        temp = this.carPosition.add(new Position(-a, 0));
-                        break;
-                }
-                if (temp.larger(topLeft) && temp.smaller(bottomRight))
-                    if(!map.isOccupied(temp))
-                    this.carPosition = temp;
-                break;
             case Right:
-                this.carDir = this.carDir.next();
+                this.direction = this.direction.next();
                 break;
             case Left:
-                this.carDir = this.carDir.prev();
+                this.direction = this.direction.prev();
+                break;
+            case Backward:
+                moveVector = moveVector.mult(-1);
+            case Forward:
+                Position temp = this.position.add(moveVector);
+                if (map.canMoveTo(temp))
+                    if (!this.map.isOccupied(temp))
+                        this.position = temp;
                 break;
             default:
         }
     }
 
-    Car(){
+    Car() {
 
     }
-    Car(IWorldMap map){
-        this.map=map;
+
+    Car(IWorldMap map) {
+        this.map = map;
     }
-    Car(IWorldMap map, int x, int y){
-        this.carPosition=new Position(x,y);
-        this.map=map;
+
+    Car(IWorldMap map, int x, int y) {
+        this.position = new Position(x, y);
+        this.map = map;
+    }
+
+    public void wzium(String[] args) {
+        MoveDirection[] moves = new OptionsParser().parse(args);
+        for (MoveDirection move : moves) {
+            move(move);
+        }
     }
 
     public static void main(String[] args) {
         Car newCar = new Car();
         System.out.println(newCar.toString());
-        /*
-        newCar.move(MoveDirection.Left);
-        newCar.move(MoveDirection.Backward);
-        newCar.move(MoveDirection.Backward);
-        newCar.move(MoveDirection.Backward);
-*/
         MoveDirection[] moves = new OptionsParser().parse(args);
-        for (MoveDirection tmp : moves)
-            newCar.move(tmp);
-
+        for (MoveDirection tmp : moves) newCar.move(tmp);
         System.out.println(newCar.toString());
     }
 }

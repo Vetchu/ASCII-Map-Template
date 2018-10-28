@@ -3,7 +3,7 @@ package agh.cs.lab3;
 import java.util.Arrays;
 
 public class OptionsParser {
-    public static MoveDirection[] parse(String[] args){
+    public MoveDirection[] parse(String[] args){
         MoveDirection returnArray[]=new MoveDirection[args.length];
         int j=0;
         for(int i=0;i<args.length;i++) {
@@ -27,8 +27,6 @@ public class OptionsParser {
                     break;
             }
         }
-        if(j!=0)
-        returnArray= Arrays.copyOfRange(returnArray,0,j-1);
-        return returnArray;
+        return Arrays.copyOf(returnArray,j);
     }
 }

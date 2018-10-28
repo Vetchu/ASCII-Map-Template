@@ -1,62 +1,54 @@
 package agh.cs.lab3;
 
 public class Car {
-    private MapDirection carDir = MapDirection.North;
-    private Position carPosition = new Position(2, 2);
+    private MapDirection direction = MapDirection.North;
+    private Position position = new Position(2, 2);
+    private static final Position LOWER_BOUND = new Position(0,0);
+    private static final Position UPPER_BOUND = new Position(4,4);
+
 
     public String toString() {
-        return "Kierunek: " + carDir + ", Pozycja: " + carPosition.toString();
+        return "Kierunek: " + direction + ", Pozycja: " + position.toString();
     }
 
-    private void move(MoveDirection direction) {
+    void move(MoveDirection direction) {
+        Position moveVector = this.direction.getVector();
         switch (direction) {
-            case Forward:
-            case Backward:
-                int a = (direction == MoveDirection.Forward) ? 1 : -1;
-                Position topLeft = new Position(1, 1);
-                Position bottomRight = new Position(3, 3);
-                Position temp = this.carPosition;
-                switch (this.carDir) {
-                    case North:
-                        temp = this.carPosition.add(new Position(0, a));
-                        break;
-                    case South:
-                        temp = this.carPosition.add(new Position(0, -a));
-                        break;
-                    case East:
-                        temp = this.carPosition.add(new Position(a, 0));
-                        break;
-                    case West:
-                        temp = this.carPosition.add(new Position(-a, 0));
-
-                        break;
-                }
-                if (temp.larger(topLeft) && temp.smaller(bottomRight))
-                    this.carPosition = temp;
-                break;
             case Right:
-                this.carDir = this.carDir.next();
+                this.direction = this.direction.next();
                 break;
             case Left:
-                this.carDir = this.carDir.prev();
+                this.direction = this.direction.prev();
+                break;
+            case Backward:
+                moveVector=moveVector.mult(-1);
+            case Forward:
+                Position temp = this.position.add(moveVector);
+                if (temp.larger(LOWER_BOUND) && temp.smaller(UPPER_BOUND))
+                    this.position = temp;
                 break;
             default:
         }
     }
 
+    public void wzium(String[] args){
+            MoveDirection[] moves=new OptionsParser().parse(args);
+            for(MoveDirection move : moves){
+                move(move);
+            }
+    }
+
     public static void main(String[] args) {
         Car newCar = new Car();
-        System.out.println(newCar.toString());
-        /*
+        System.out.println(newCar);
+
         newCar.move(MoveDirection.Left);
         newCar.move(MoveDirection.Backward);
         newCar.move(MoveDirection.Backward);
         newCar.move(MoveDirection.Backward);
-*/
-        MoveDirection[] moves = OptionsParser.parse(args);
-        for (MoveDirection tmp : moves)
-            newCar.move(tmp);
 
-        System.out.println(newCar.toString());
+        MoveDirection[] moves = new OptionsParser().parse(args);
+        for (MoveDirection tmp : moves) newCar.move(tmp);
+        System.out.println(newCar);
     }
 }

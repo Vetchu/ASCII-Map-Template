@@ -42,6 +42,10 @@ public class Position {
         return new Position(newX, newY);
     }
 
+    public Position mult(int val){
+        return new Position(this.x*val,this.y*val);
+    }
+
     public static void main(String[] args){
         Position position1 = new Position(1,2);
         System.out.println(position1);
@@ -49,4 +53,6 @@ public class Position {
         System.out.println(position2);
         System.out.println(position1.add(position2));
     }
+
+
 }

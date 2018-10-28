@@ -14,16 +14,16 @@ public class RectangularMap implements IWorldMap {
 
     @Override
     public boolean canMoveTo(Position position) {
+        if(!position.smaller(upperRight)||!position.larger(lowerLeft)) return false;
         for (Car vehicle : vehicles)
-            if (vehicle.getCarPosition().equals(position)) return false;
-
+            if (vehicle.getPosition().equals(position)) return false;
         return true;
     }
 
     @Override
     public boolean place(Car car) {
         for (Car vehicle : vehicles)
-            if(vehicle.getCarPosition().equals(car.getCarPosition())) return false;
+            if(vehicle.getPosition().equals(car.getPosition())) return false;
         vehicles.add(car);
         return true;
     }
@@ -33,6 +33,7 @@ public class RectangularMap implements IWorldMap {
         int carCurrNum=0;
         int carTotal=vehicles.size();
         for (MoveDirection direction : directions) {
+            System.out.println(new MapVisualizer().dump(this, this.lowerLeft, this.upperRight));
             Car currentCar=vehicles.get(carCurrNum++);
             currentCar.move(direction);
             if(carCurrNum==carTotal) carCurrNum=0;
@@ -41,20 +42,18 @@ public class RectangularMap implements IWorldMap {
 
     @Override
     public boolean isOccupied(Position position) {
-        for (Car vehicle : vehicles)
-            if (vehicle.getCarPosition().equals(position)) return true;
-        return false;
+        return !canMoveTo(position);
     }
 
     @Override
     public Object objectAt(Position position) {
         for (Car vehicle : vehicles)
-            if (vehicle.getCarPosition().equals(position)) return vehicle;
+            if (vehicle.getPosition().equals(position)) return vehicle;
         return null;
     }
 
     @Override
     public String toString() {
-        return new MapVisualizer().dump(this,lowerLeft,this.upperRight);
+        return new MapVisualizer().dump(this,this.lowerLeft,this.upperRight);
     }
 }
