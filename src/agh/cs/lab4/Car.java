@@ -37,9 +37,8 @@ public class Car {
                 moveVector = moveVector.mult(-1);
             case Forward:
                 Position temp = this.position.add(moveVector);
-                if (map.canMoveTo(temp))
-                    if (!this.map.isOccupied(temp))
-                        this.position = temp;
+                if (this.map.canMoveTo(temp))
+                    this.position = temp;
                 break;
             default:
         }
